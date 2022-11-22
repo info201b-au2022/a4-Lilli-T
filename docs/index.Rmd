@@ -28,7 +28,7 @@ This project will examine potential outcomes of inequality in U.S. prisons. Some
 
 ## Data Summary 
 
-```{r echo=FALSE, warning=FALSE}
+```{r echo=FALSE, warning=FALSE, message=FALSE}
 summary <- summarize_jail()
 f_jail_mean <- filter(summary, stat == "f_mean") %>%
   pull(value)
@@ -46,7 +46,7 @@ An additional key phenomenon is that the population in jails for ICE vary signif
 
 ## Growth of the U.S. Prison Population
 
-```{r echo=FALSE, warning=FALSE}
+```{r echo=FALSE, warning=FALSE, message=FALSE}
 plot_jail_pop_for_us()
 ```
   
@@ -56,7 +56,7 @@ The chart answers the question: how has the U.S. prison population changed over 
 
 ## Growth of Prison Population by State
 
-```{r echo=FALSE, warning=FALSE}
+```{r echo=FALSE, warning=FALSE, message=FALSE}
 plot_jail_pop_by_states(c("CA", "WA", "NY", "TX", "MT"))
 ```
 
@@ -67,7 +67,7 @@ This chart answers the question: are state prison populations changing similarly
 
 ## Observational Variance
 
-```{r echo=FALSE, warning=FALSE}
+```{r echo=FALSE, warning=FALSE, message=FALSE}
 plot_gender_prison_jail()
 ```
 
@@ -78,7 +78,7 @@ This chart answers the question: what is the observational variance between the 
 
 ## Geographical Variance
 
-```{r echo=FALSE, warning=FALSE}
+```{r echo=FALSE, warning=FALSE, message=FALSE}
 plot_ice_jail_county()
 ```
 
