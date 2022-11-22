@@ -1,11 +1,11 @@
 ---
-title: "Your A4 Report Title (TODO: Revise title)"
+title: "Foreign and Gender Inequalities in Incarceration Trends"
 author: "Lilli Toone"
 date: '2022-11-01'
 output: html_document
 ---
 
-```{r echo=FALSE, eval=TRUE, message=FALSE}
+```{r echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
 source("../source/a4-helpers.R")
 source("../source/analysis.R")
 ```
@@ -20,80 +20,69 @@ The social issues related to the dataset are the perceptions of a value and poss
 
 Direct stakeholders of the dataset include people who are being assessed by local, state, and federal authorities and are at risk of going to jail. Indirect stakeholders of the dataset include people who live in areas nearby jails and prisons. These people are affected by the safety of their community and prevalence of authorities also in the area. Thus, the central values to this data set are safety and equity of community members before and after entering jail or prison.  
 
-This project will examine potential outcomes of inequality in U.S. prisons. Some of the questions explored are:
-1. How has the U.S. prison population changed over time?
-2. Are state prison populations changing similarly, or are some states significantly contributing to the national change?
-3. What is the observational variance between the proportion of female and male jail populations?
-4. What is the geographical variance of jails that hold populations for U.S. Immigration and Customs Enforcement?
+This project will examine potential outcomes of inequality in U.S. prisons. Some of the questions explored are:  
+1. How has the U.S. prison population changed over time?  
+2. Are state prison populations changing similarly, or are some states   significantly contributing to the national change?  
+3. What is the observational variance between the proportion of female and male jail populations?  
+4. What is the geographical variance of jails that hold populations for U.S. Immigration and Customs Enforcement?  
 
 ## Data Summary 
 
-```{r echo=FALSE}
-summary <- summary()
-f_jail_mean <- pull(summary, f_mean)
-m_jail_mean <- pull(summary, m_mean)
-val_verde_ice <- pull(summary, val_verde_ice)
-terrell_ice <- pull(summary, terrell_ice)
+```{r echo=FALSE, warning=FALSE}
+summary <- summarize_jail()
+f_jail_mean <- filter(summary, stat == "f_mean") %>%
+  pull(value)
+m_jail_mean <- filter(summary, stat == "m_mean") %>%
+  pull(value)
+val_verde_ice <- filter(summary, stat == "val_verde_ice") %>%
+  pull(value)
+terrell_ice <- filter(summary, stat == "terrell_ice") %>%
+  pull(value)
 ```
 
 One key anomaly can be found between the female and male jail populations. The average jail population of women was **`r f_jail_mean` people**, and the average jail population of men was **`r m_jail_mean` people**. This difference, after some analysis, was found to be statistically significant. These variables highlight possible inequalities between the rate at which women and men are put into jail.  
 
-An additional key phenomenon is that the population in jails for ICE vary significantly from county to county. For example, over the past decade, Terrell county in Texas held **`r terrell_ice` people** in jail for Immigration and Customs Enforcement. Meanwhile, the county just next door, Val Verde county, held **`r val_verde_ice` people** in jail for the exact same reason. This descrepancy suggests policies or a power imbalance that affects the amount of control ICE has over populations.
+An additional key phenomenon is that the population in jails for ICE vary significantly from county to county. For example, over the past decade, Terrell county in Texas held **`r terrell_ice` people** in jail for Immigration and Customs Enforcement. Meanwhile, the county just next door, Val Verde county, held **`r val_verde_ice` people** in jail for the exact same reason. This descrepancy suggests policies or a power imbalance that affects the amount of control ICE has over populations compared to state or local jail populations.
 
 ## Growth of the U.S. Prison Population
-[TODO: >= 50 words]
-- dplyr and ggplot2
-- replicate figure 1 on canvas (increase of jail populations 1970-2018)
-- create 2 functions;
-- get_year_jail_pop() returns df suitable for vis.
-- plot_jail_pop_for_us() returns chart. calls get_year_jail_pop
-- caption chart
-- summarize key patterns from chart
-- concise, clear question
-- labels, legend, scales
 
-```{r echo=FALSE}
+```{r echo=FALSE, warning=FALSE}
 plot_jail_pop_for_us()
 ```
+  
+**Figure 1**: Jail Population Trends, 1970~2018.
+
+The chart answers the question: how has the U.S. prison population changed over time? This bar graph shows that from 1979 to 2007, the national jail population has consistently increased. Before and after that period, the population has remained consistent. This could be related to changing policies at the federal or state level, or to the general population trends in the nation.
 
 ## Growth of Prison Population by State
-[TODO: >= 50 words]
-- dplyr and ggplot2
-- line chart 1970~2018
-- show by one or more states
-- chart caption
-- create 2 functions;
-- get_jail_pop_by_states(states) takes in vector of states. returns a df for vis.
-- plot_jail_pop_by_states(states) takes in a vector of states. should call get_jail_pop_by_states. returns chart.
-- states <- 3~10 states
-- concise, clear question
-- labels, legend, scales
 
-```{r echo=FALSE}
+```{r echo=FALSE, warning=FALSE}
+plot_jail_pop_by_states(c("CA", "WA", "NY", "TX", "MT"))
 ```
+
+  
+**Figure 2**: Trends of State Jail Population Trends.
+
+This chart answers the question: are state prison populations changing similarly, or are there state differences within the national change? The chart shows trends for states with some of the largest metropolitan areas in the country such as Washington, California, New York, Texas, and Washington, as well as Montana, a more rural area. In California, New York, and Texas, incarceration trends increased significantly starting in 1977. For Washington and Montana, the population continued to increase at a similar rate to before that year. This suggests that the largest contributors to the national change are the states with the largest metropolitan areas.
 
 ## Observational Variance
-[TODO: >= 50 words]
-- chart
-- chart caption
-- 2 continuous variables
-- >=2 functions, one wrangling, one plotting (plot call wran)
-- clear question
-- summarize key pattern
-- labels, legend, scales
 
-```{r echo=FALSE}
+```{r echo=FALSE, warning=FALSE}
+plot_gender_prison_jail()
 ```
+
+  
+**Figure 3**: Comparison of populations show lower rates for women in jail.
+
+This chart answers the question: what is the observational variance between the proportion of female and male jail populations? The data has been transformed to show the boxes more clearly. Despite both men and women having similar prison rates, women have a lower jail population rate than men. After statistical testing, I found that the likelihood of finding a jail population difference this large is highly unlikely. This makes the difference statistically significant and shows possible inequalities between jailed women and men.
 
 ## Geographical Variance
-- chart
-- chart caption
-- 1 variable on a map
-- >=2 functions, one wrangling, one plotting (plot call wran)
-- clear question
-- summarize key pattern
-- labels, legend, scales
-- Use a map based coordinate system to set the aspect ratio of your map
 
-```{r echo=FALSE}
+```{r echo=FALSE, warning=FALSE}
+plot_ice_jail_county()
 ```
+
+  
+**Figure 4**: Comparison of ICE jail populations per county, Arizona, New Mexico, Texas.
+
+This chart answers the question: what is the geographical variance of jails that hold populations for U.S. Immigration and Customs Enforcement? In general, most of Arizona and Eastern Texas contain counties with a significant number of ICE jail populations. However, even within these areas are pockets of counties that contain little to no people jailed by ICE. These differences illustrate the difference in power of the federal government and the state and local government in different counties. This chart may also highlight the jail locations that have high capacity and counties that have different policies on accepting those jailed by ICE.

@@ -17,7 +17,7 @@ source("../source/a4-helpers.R")
 #----------------------------------------------------------------------------#
 
 # Generate summary
-summary <- function() {
+summarize_jail <- function() {
   f_jail_mean <- round(mean(prison_records[["female_jail_pop"]], na.rm = TRUE), 2)
   m_jail_mean <- round(mean(prison_records[["male_jail_pop"]], na.rm = TRUE), 2)
   # 48465 - Val Verde, 48443 - Terrell
@@ -57,7 +57,7 @@ plot_jail_pop_for_us <- function() {
     geom_bar(stat = "identity") +
     labs(title = "Increase of Jail Population in U.S. (1970-2018)",
          x = "Year",
-         y = "Total Jail Population") +
+         y = "Total Jail Population (People)") +
     scale_y_continuous(labels = comma) +
     theme(plot.title = element_text(size = 10))
   return(plot)
@@ -84,9 +84,14 @@ plot_jail_pop_by_states <- function(states) {
     geom_line(stat = "identity") +
     labs(title = "U.S. State Jail Population Trends (1970-2018)",
          x = "Year",
-         y = "Jail Population",
+         y = "Jail Population (People)",
          fill = "State"
-    )
+    ) + theme(panel.border = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        plot.background = element_rect(fill = "white"),
+        panel.background = element_rect(fill = "white"))
+  return(plot)
 }
 
 ## Section 5  ---- 
@@ -153,6 +158,7 @@ plot_gender_prison_jail <- function() {
           plot.background = element_rect(fill = "white"),
           panel.background = element_rect(fill = "white")) +
     scale_fill_manual(values = c("#A0E7E5", "#FFAEBC", "#B4F8C8", "#FFCF9C"))
+  return(plot)
 }
 
 # Stat tests of f-m jail population, returns t test results hidden
